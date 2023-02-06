@@ -27,7 +27,11 @@ export default function Home() {
         const orbitdb = await OrbitDB.createInstance(ipfs as any)
 
         // Create / Open a database
-        const db: FeedStore<string> = await orbitdb.feed(DB_NAME)
+        const db: FeedStore<string> = await orbitdb.feed(DB_NAME, {
+          accessController: {
+            write: ['*'],
+          },
+        })
         await db.load()
 
         setDb(db)
@@ -101,7 +105,9 @@ export default function Home() {
                   : 'bg-red-400 border-red-500'
               }`}
             />
-            <span className='text-xs font-light text-gray-700'>{process.env.NEXT_PUBLIC_IPFS_NODE}</span>
+            <span className="text-xs font-light text-gray-700">
+              {process.env.NEXT_PUBLIC_IPFS_NODE}
+            </span>
           </div>
         </div>
         <div
